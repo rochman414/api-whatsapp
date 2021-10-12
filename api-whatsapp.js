@@ -92,13 +92,11 @@ io.on('connection', function(socket) {
     client.on('qr', qr => {
         qrcode.toDataURL(qr, (req, res) => {
             socket.emit('qr',res);
-            console.log(res);
             socket.emit('messageQr','QR Code is ready, Please scan!');
         })
     });
     
     client.on('ready', () => {
-        console.log('Client is ready!');
         socket.emit('hideQr','Client is ready');
         socket.emit('message','Whatsapp is ready to use!');
     });

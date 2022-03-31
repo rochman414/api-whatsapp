@@ -3,7 +3,7 @@
     "version": "0.1",
     "main": "api-whatsapp.js",
     "scripts": {
-        "start": "forever api-whatsapp.js",
+        "start": "nodemon api-whatsapp.js",
         "test": "echo \"error: File tidak bisa di jalankan\"&& exit 1"
     },
     "keywords": [
@@ -14,13 +14,13 @@
         "date": "^1.0.2",
         "date-and-time": "^2.0.0",
         "express": "^4.17.1",
-        "forever": "^0.10.10",
+        "forever": "^4.0.3",
         "http": "^0.0.1-security",
         "io": "^1.0.4",
         "nodemon": "^2.0.13",
         "pg": "^8.7.1",
         "pm2": "^5.1.2",
-        "puppeteer": "^10.4.0",
+        "puppeteer": "^13.5.1",
         "qrcode": "^1.4.4",
         "qrcode-terminal": "^0.12.0",
         "socket.io": "^4.2.0",

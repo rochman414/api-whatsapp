@@ -1,7 +1,5 @@
 const express = require('express');
-const { response, json } = require('express');
-const { Client } = require('whatsapp-web.js');
-const fs = require('fs');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -14,14 +12,6 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-
-// Load the session data if it has been previously saved
-const SESSION_FILE_PATH = './session.json'
-let sessionData;
-if(fs.existsSync(SESSION_FILE_PATH)) {
-    sessionData = require(SESSION_FILE_PATH);
-}
-
 // Use the saved values
 
 const client = new Client({
@@ -39,7 +29,7 @@ const client = new Client({
         '--disable-gpu'
     ],
     },
-    session: sessionData
+    authStrategy: new LocalAuth()
 });
 
 app.get('/',(req, res) => {
@@ -62,15 +52,6 @@ app.get('/api/send-message/:nomer/:message', (req, res) => {
     })
 })
 
-app.get('/delete',(req, res) => {
-    if(fs.existsSync(SESSION_FILE_PATH)) {
-        fs.unlinkSync(SESSION_FILE_PATH);
-    } else {
-        res.send('session deleted! \n Back to main menu');
-    }
-    process.exit(1);
-});
-
 client.initialize();
 
 
@@ -79,14 +60,8 @@ io.on('connection', function(socket) {
     socket.emit('message','Connecting....');
 
     // Save session values to the file upon successful auth
-    client.on('authenticated', (session) => {
-        socket.emit('message','Whatsapp is autenticated!')
-        sessionData = session;
-        fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
-            if (err) {
-                console.error(err);
-            }
-        });
+    client.on('authenticated', () => {
+        socket.emit('message','Whatsapp is autenticated!');
     });
 
     client.on('qr', qr => {
@@ -101,16 +76,12 @@ io.on('connection', function(socket) {
         socket.emit('message','Whatsapp is ready to use!');
     });
 
-    client.on('auth_failure', function(session) {
+    client.on('auth_failure', function() {
         socket.emit('message', 'Auth failure, restarting...');
     });
     
     client.on('disconnected', (reason) => {
         socket.emit('message', 'Whatsapp is disconnected!');
-        fs.unlinkSync(SESSION_FILE_PATH, function(err) {
-            if(err) return console.log(err);
-            console.log('Session file deleted!');
-        });
         client.destroy();
         client.initialize();
     });

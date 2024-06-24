@@ -14,7 +14,13 @@ app.use(express.urlencoded({
 }));
 // Use the saved values
 
+const wwebVersion = '2.2407.3';
 const client = new Client({
+    webVersionCache: 
+    {
+        remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`,
+        type: 'remote' 
+    },
     restartOnAuthFail: true,
     puppeteer: {
     headless: true,

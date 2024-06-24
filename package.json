@@ -14,17 +14,15 @@
         "date": "^1.0.2",
         "date-and-time": "^2.0.0",
         "express": "^4.17.1",
-        "forever": "^4.0.3",
+        "forever": "^1.0.1",
         "http": "^0.0.1-security",
         "io": "^1.0.4",
         "nodemon": "^2.0.13",
-        "pg": "^8.7.1",
-        "pm2": "^5.1.2",
-        "puppeteer": "^13.5.1",
+        "puppeteer": "^22.12.0",
         "qrcode": "^1.4.4",
         "qrcode-terminal": "^0.12.0",
         "socket.io": "^4.2.0",
         "time-format": "^0.0.1",
-        "whatsapp-web.js": "^1.14.1"
+        "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#webpack-exodus"
     }
 }

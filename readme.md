@@ -1,4 +1,5 @@
 npm install whatsapp-web.js
+
 npm install
 
 for fix bug api-whatsapp-master/node_modules/whatsapp-web.js/src/webCache/LocalWebCache.js:34
